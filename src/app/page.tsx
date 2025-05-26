@@ -1,103 +1,151 @@
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
+import JobCard from '@/components/ui/JobCard';
+
+// Mock data for featured jobs
+const featuredJobs = [
+  {
+    id: '1',
+    title: 'Desenvolvedor Front-end',
+    company: 'Tech Solutions',
+    location: 'Itaqui, RS',
+    type: 'Integral',
+    salary: 'R$ 5.000 - R$ 7.000',
+    postedAt: '15/07/2023',
+    description: 'Estamos buscando um desenvolvedor Front-end com experiência em React para desenvolver interfaces modernas e responsivas para nossos produtos.'
+  },
+  {
+    id: '2',
+    title: 'Assistente Administrativo',
+    company: 'Comércio Local Ltda',
+    location: 'Itaqui, RS',
+    type: 'Meio período',
+    salary: 'R$ 1.800',
+    postedAt: '20/07/2023',
+    description: 'Vaga para assistente administrativo para auxiliar nas rotinas do escritório, atendimento ao cliente e organização de documentos.'
+  },
+  {
+    id: '3',
+    title: 'Operador de Caixa',
+    company: 'Supermercado Central',
+    location: 'Itaqui, RS',
+    type: 'Integral',
+    salary: 'R$ 1.500',
+    postedAt: '18/07/2023',
+    description: 'Procuramos profissional para atuar como operador de caixa, com bom relacionamento interpessoal e experiência em atendimento ao cliente.'
+  }
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div>
+      {/* Hero Section */}
+      <section className="bg-gray-50 py-16 md:py-24">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-6">
+                Encontre seu próximo emprego em <span className="text-blue-600">Itaqui</span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                Conectamos profissionais e empresas da região para criar novas oportunidades.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/cadastro" className="btn btn-primary">
+                  Cadastre-se agora
+                </Link>
+                <Link href="/vagas" className="btn btn-secondary">
+                  Ver todas as vagas
+                </Link>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <div className="aspect-video rounded-xl overflow-hidden">
+                <Image
+                  src="/home_image.png"
+                  alt="Profissionais em entrevista de emprego"
+                  width={600}
+                  height={400}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Featured Jobs Section */}
+      <section className="py-16">
+        <div className="container mx-auto">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-medium text-gray-900">Vagas em destaque</h2>
+            <Link href="/vagas" className="text-blue-600 hover:underline">
+              Ver todas as vagas
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-6">
+            {featuredJobs.map((job) => (
+              <JobCard key={job.id} {...job} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For Companies Section */}
+      <section className="bg-gray-50 py-16">
+        <div className="container mx-auto">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-medium text-gray-900 mb-6">Para empresas</h2>
+            <p className="text-xl text-gray-600 mb-8">
+              Divulgue suas vagas gratuitamente e encontre os melhores talentos para sua empresa.
+            </p>
+            <Link href="/cadastro" className="btn btn-primary">
+              Cadastre sua empresa
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section className="py-16">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-medium text-center text-gray-900 mb-12">Como funciona</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="card text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
+                1
+              </div>
+              <h3 className="text-xl font-medium mb-2">Cadastre-se</h3>
+              <p className="text-gray-600">
+                Crie sua conta como candidato ou empresa em menos de 5 minutos.
+              </p>
+            </div>
+            
+            <div className="card text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
+                2
+              </div>
+              <h3 className="text-xl font-medium mb-2">Divulgue ou encontre</h3>
+              <p className="text-gray-600">
+                Empresas publicam vagas e candidatos encontram oportunidades.
+              </p>
+            </div>
+            
+            <div className="card text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-2xl font-bold mx-auto mb-4">
+                3
+              </div>
+              <h3 className="text-xl font-medium mb-2">Conecte-se</h3>
+              <p className="text-gray-600">
+                Entrevistas são agendadas e novas contratações acontecem.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
