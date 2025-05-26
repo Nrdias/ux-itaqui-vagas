@@ -1,9 +1,6 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { useParams } from 'next/navigation';
 
 // Mock job data - in a real application, this would come from an API
 const jobDetails = {
@@ -39,13 +36,27 @@ const jobDetails = {
   companyDescription: 'A Tech Solutions é uma empresa de tecnologia focada em desenvolver soluções inovadoras para o mercado. Estamos há 5 anos no mercado e temos uma equipe de profissionais altamente qualificados.'
 };
 
-export default function JobDetailPage() {
-  const params = useParams();
-  // const jobId = params.id as string;
+export async function generateStaticParams() {
+  // Return the list of job IDs that should be pre-generated
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' }
+  ];
+}
+
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function JobDetailPage({ params }: PageProps) {
+  const { id } = await params;
   
   // In a real application, you would fetch the job details based on the ID
   // For this example, we'll just use the mock data
-  console.log('Job ID:', params.id);
+  console.log('Job ID:', id);
   
   return (
     <div className="container mx-auto py-12">

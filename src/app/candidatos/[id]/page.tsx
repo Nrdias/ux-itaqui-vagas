@@ -1,7 +1,4 @@
-'use client';
-
-import { useParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 interface Candidate {
@@ -317,49 +314,28 @@ const mockCandidate: Record<string, Candidate> = {
   }
 };
 
-export default function CandidateProfilePage() {
-  const params = useParams();
-  const candidateId = params.id as string;
+export async function generateStaticParams() {
+  // Return the list of candidate IDs that should be pre-generated
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' }
+  ];
+}
+
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export default async function CandidateProfilePage({ params }: PageProps) {
+  const { id } = await params;
   
-  const [candidate, setCandidate] = useState<Candidate | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate API call to fetch candidate data
-    setLoading(true);
-    setTimeout(() => {
-      const candidateData = mockCandidate[candidateId];
-      setCandidate(candidateData || null);
-      setLoading(false);
-    }, 800);
-  }, [candidateId]);
-
-  if (loading) {
-    return (
-      <div className="container mx-auto py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-md p-8 text-center">
-            <p className="text-gray-600">Carregando perfil do candidato...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const candidate = mockCandidate[id];
 
   if (!candidate) {
-    return (
-      <div className="container mx-auto py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-md p-8 text-center">
-            <h2 className="text-2xl font-medium text-gray-900 mb-4">Candidato não encontrado</h2>
-            <p className="text-gray-600 mb-6">O perfil que você está procurando não existe ou foi removido.</p>
-            <Link href="/buscar-candidatos" className="btn btn-primary">
-              Voltar para busca
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
@@ -426,7 +402,7 @@ export default function CandidateProfilePage() {
           <h3 className="text-xl font-medium text-gray-900 mb-4">Experiência profissional</h3>
           
           <div className="space-y-6">
-            {candidate.workHistory.map(job => (
+            {candidate.workHistory.map((job) => (
               <div key={job.id} className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
                 <div className="flex flex-col md:flex-row md:justify-between mb-2">
                   <h4 className="text-lg font-medium text-gray-900">{job.position}</h4>
@@ -446,7 +422,7 @@ export default function CandidateProfilePage() {
           <h3 className="text-xl font-medium text-gray-900 mb-4">Formação acadêmica</h3>
           
           <div className="space-y-6">
-            {candidate.educationHistory.map(edu => (
+            {candidate.educationHistory.map((edu) => (
               <div key={edu.id} className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
                 <div className="flex flex-col md:flex-row md:justify-between mb-2">
                   <h4 className="text-lg font-medium text-gray-900">{edu.field}</h4>
