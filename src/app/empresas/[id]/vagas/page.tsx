@@ -308,13 +308,13 @@ const companyJobs = {
 };
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function CompanyJobsPage({ params }: PageProps) {
-  const { id } = params;
+export default async function CompanyJobsPage({ params }: PageProps) {
+  const { id } = await params;
   
   // Find company
   const company = companies.find(c => c.id === id);
