@@ -62,7 +62,7 @@ export default function Home() {
             <div className="hidden md:block">
               <div className="aspect-video rounded-xl overflow-hidden">
                 <Image
-                  src="/home_image.png"
+                  src="/ux-itaqui-vagas/home_image.png"
                   alt="Profissionais em entrevista de emprego"
                   width={600}
                   height={400}
