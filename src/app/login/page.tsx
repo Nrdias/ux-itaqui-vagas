@@ -4,9 +4,50 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import { useRouter } from 'next/navigation';
+import { UserService } from '@/lib/userService';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [userType, setUserType] = useState<'candidate' | 'company'>('candidate');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim() || !password.trim()) {
+      setError('Por favor, preencha todos os campos');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      if (userType === 'candidate') {
+        const result = await UserService.loginUser(email, password);
+        
+        if (result.success) {
+          alert('Login realizado com sucesso!');
+          router.push('/'); // Redirect to dashboard or home
+        } else {
+          setError(result.error || 'Erro ao fazer login');
+        }
+      } else {
+        // For now, company login is not implemented
+        setError('Login de empresa ainda não implementado');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Erro interno. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   return (
     <div className="container mx-auto py-12">
@@ -42,12 +83,21 @@ export default function LoginPage() {
             </button>
           </div>
           
-          <form className="space-y-4">
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Input
                 label="E-mail"
                 type="email"
                 placeholder={userType === 'candidate' ? "seu@email.com" : "empresa@dominio.com"}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             
@@ -56,6 +106,9 @@ export default function LoginPage() {
                 label="Senha"
                 type="password"
                 placeholder="Digite sua senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             
@@ -65,6 +118,8 @@ export default function LoginPage() {
                   type="checkbox" 
                   id="remember" 
                   className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
                 <label htmlFor="remember" className="ml-2 text-sm text-secondary">
                   Lembrar-me
@@ -76,8 +131,8 @@ export default function LoginPage() {
               </Link>
             </div>
             
-            <Button fullWidth>
-              Entrar
+            <Button fullWidth disabled={isLoading}>
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
           
