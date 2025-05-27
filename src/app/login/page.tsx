@@ -88,7 +88,7 @@ export default function LoginPage() {
                 : "Não possui cadastro para sua empresa?"}
             </p>
             <Link 
-              href={userType === 'candidate' ? "/cadastro" : "/cadastro-empresa"} 
+              href={userType === 'candidate' ? "/cadastro-candidato" : "/cadastro-empresa"} 
               className="text-primary hover:underline font-medium"
             >
               {userType === 'candidate' 

@@ -17,10 +17,14 @@ body {
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Prevent zoom on iOS when focusing inputs */
+    -webkit-text-size-adjust: 100%;
   }
   
   body {
     @apply bg-white text-gray-900;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -28,40 +32,76 @@ body {
   }
 
   h1 {
-    @apply text-4xl;
+    @apply text-3xl sm:text-4xl;
   }
 
   h2 {
-    @apply text-3xl;
+    @apply text-2xl sm:text-3xl;
   }
 
   h3 {
-    @apply text-2xl;
+    @apply text-xl sm:text-2xl;
+  }
+
+  /* Improve touch targets on mobile */
+  @media (max-width: 768px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+    }
   }
 }
 
 @layer components {
   .btn {
     @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+    /* Ensure minimum touch target size on mobile */
+    min-height: 44px;
+    touch-action: manipulation;
   }
   
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800;
   }
   
   .btn-secondary {
-    @apply bg-gray-100 text-gray-800 hover:bg-gray-200;
+    @apply bg-gray-100 text-gray-800 hover:bg-gray-200 active:bg-gray-300;
   }
 
   .input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    /* Ensure minimum touch target size */
+    min-height: 44px;
+    /* Prevent zoom on iOS */
+    font-size: 16px;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-md p-6;
+    @apply bg-white rounded-xl shadow-md p-4 sm:p-6;
   }
 
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-scroll-smooth {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Line clamp utility for better text truncation */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Safe area padding for devices with notches */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

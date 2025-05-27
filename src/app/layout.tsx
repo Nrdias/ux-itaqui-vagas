@@ -7,6 +7,7 @@ import BackButton from "@/components/ui/BackButton";
 export const metadata: Metadata = {
   title: "Itaqui Vagas - Encontre seu próximo emprego",
   description: "Plataforma para conectar empresas e profissionais",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
@@ -16,7 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body suppressHydrationWarning={true}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      </head>
+      <body suppressHydrationWarning={true} className="safe-area-top safe-area-bottom">
         <div className="min-h-screen flex flex-col">
           <Header />
           <BackButton />

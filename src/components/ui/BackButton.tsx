@@ -17,13 +17,14 @@ const BackButton = () => {
 
   return (
     <div className="bg-gray-50 border-b border-gray-200">
-      <div className="container mx-auto py-3">
+      <div className="container mx-auto py-2 sm:py-3">
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+          className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors p-2 -m-2 rounded-lg hover:bg-gray-100 min-h-[44px]"
+          aria-label="Voltar para a página anterior"
         >
           <svg 
-            className="w-4 h-4" 
+            className="w-4 h-4 sm:w-5 sm:h-5" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -35,7 +36,7 @@ const BackButton = () => {
               d="M15 19l-7-7 7-7" 
             />
           </svg>
-          <span className="text-sm font-medium">Voltar</span>
+          <span className="text-sm sm:text-base font-medium">Voltar</span>
         </button>
       </div>
     </div>
