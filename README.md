@@ -2,6 +2,10 @@
 
 Um portal de vagas de emprego inspirado em https://itaqui.vagasnacidade.com.br/, desenvolvido com React, TypeScript e Next.js.
 
+## 🌐 Demo
+
+Acesse a aplicação em funcionamento: **[https://nrdias.github.io/ux-itaqui-vagas/](https://nrdias.github.io/ux-itaqui-vagas/)**
+
 ## 🚀 Funcionalidades
 
 - **Cadastro de usuários**: Candidatos e empresas podem criar suas contas
