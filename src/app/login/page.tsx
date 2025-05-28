@@ -35,13 +35,11 @@ export default function LoginPage() {
         const result = await UserService.loginUser(email, password);
         
         if (result.success) {
-          // Redirect immediately since stores are updated synchronously
           router.push('/perfil');
         } else {
           setError(result.error || 'Erro ao fazer login');
         }
       } else {
-        // Company login
         const result = await CompanyService.loginCompany(email, password);
         
         if (result.success && result.company) {
@@ -162,4 +160,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-} 
+}

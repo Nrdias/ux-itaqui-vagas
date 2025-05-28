@@ -11,12 +11,11 @@ export default function DashboardEmpresaPage() {
   const { company, isLoggedIn, clearCompany, initializeFromStorage, _hasHydrated } = useCompanyStore();
 
   useEffect(() => {
-    if (!_hasHydrated) return; // Wait for hydration
+    if (!_hasHydrated) return;
     
     if (!isLoggedIn || !company) {
       initializeFromStorage();
       
-      // If still not logged in after trying to load from storage, redirect to login
       setTimeout(() => {
         if (!useCompanyStore.getState().isLoggedIn) {
           router.push('/login');
@@ -30,7 +29,6 @@ export default function DashboardEmpresaPage() {
     router.push('/');
   };
 
-  // Show loading while hydrating
   if (!_hasHydrated) {
     return (
       <div className="container mx-auto py-12">
@@ -41,7 +39,6 @@ export default function DashboardEmpresaPage() {
     );
   }
 
-  // Show loading if not logged in
   if (!isLoggedIn || !company) {
     return (
       <div className="container mx-auto py-12">
@@ -55,7 +52,6 @@ export default function DashboardEmpresaPage() {
   return (
     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-medium text-gray-900 mb-2">
@@ -73,7 +69,6 @@ export default function DashboardEmpresaPage() {
           </div>
         </div>
 
-        {/* Company Info Card */}
         <div className="card mb-8">
           <h2 className="text-xl font-medium mb-4">Informações da Empresa</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,7 +118,6 @@ export default function DashboardEmpresaPage() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div className="card text-center">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -165,7 +159,6 @@ export default function DashboardEmpresaPage() {
           </div>
         </div>
 
-        {/* Responsible Person Info */}
         <div className="card">
           <h2 className="text-xl font-medium mb-4">Responsável pela Conta</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -190,4 +183,4 @@ export default function DashboardEmpresaPage() {
       </div>
     </div>
   );
-} 
+}

@@ -35,7 +35,6 @@ interface Candidate {
   }[];
 }
 
-// Mock data for a single candidate with extended details
 const mockCandidate: Record<string, Candidate> = {
   '1': {
     id: '1',
@@ -315,7 +314,6 @@ const mockCandidate: Record<string, Candidate> = {
 };
 
 export async function generateStaticParams() {
-  // Return the list of candidate IDs that should be pre-generated
   return [
     { id: '1' },
     { id: '2' },
@@ -353,7 +351,6 @@ export default async function CandidateProfilePage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Cabeçalho do currículo */}
         <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
           <div className="bg-blue-600 px-6 py-4">
             <h1 className="text-2xl font-bold text-white">{candidate.name}</h1>
@@ -391,13 +388,11 @@ export default async function CandidateProfilePage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Sobre o candidato */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-xl font-medium text-gray-900 mb-4">Sobre</h3>
           <p className="text-gray-700">{candidate.about}</p>
         </div>
         
-        {/* Experiência profissional */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-xl font-medium text-gray-900 mb-4">Experiência profissional</h3>
           
@@ -417,7 +412,6 @@ export default async function CandidateProfilePage({ params }: PageProps) {
           </div>
         </div>
         
-        {/* Formação acadêmica */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-xl font-medium text-gray-900 mb-4">Formação acadêmica</h3>
           
@@ -437,7 +431,6 @@ export default async function CandidateProfilePage({ params }: PageProps) {
           </div>
         </div>
         
-        {/* Habilidades */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-xl font-medium text-gray-900 mb-4">Habilidades</h3>
           
@@ -453,7 +446,6 @@ export default async function CandidateProfilePage({ params }: PageProps) {
           </div>
         </div>
         
-        {/* Idiomas */}
         <div className="bg-white rounded-xl shadow-md p-6">
           <h3 className="text-xl font-medium text-gray-900 mb-4">Idiomas</h3>
           

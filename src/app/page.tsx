@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import JobCard from '@/components/ui/JobCard';
 
-// Mock data for featured jobs
 const featuredJobs = [
   {
     id: '1',
@@ -39,7 +38,6 @@ const featuredJobs = [
 export default function Home() {
   return (
     <div>
-      {/* Hero Section */}
       <section className="bg-gray-50 py-12 sm:py-16 md:py-20 lg:py-24">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -75,7 +73,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Jobs Section */}
       <section className="py-12 sm:py-16">
         <div className="container mx-auto">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
@@ -93,7 +90,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* For Companies Section */}
       <section className="bg-gray-50 py-12 sm:py-16">
         <div className="container mx-auto">
           <div className="text-center max-w-3xl mx-auto px-4">
@@ -108,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it Works Section */}
       <section className="py-12 sm:py-16">
         <div className="container mx-auto">
           <h2 className="text-2xl sm:text-3xl font-medium text-center text-gray-900 mb-8 sm:mb-12">Como funciona</h2>

@@ -14,7 +14,6 @@ interface Candidate {
   lastUpdated: string;
 }
 
-// Mock data for candidates
 const mockCandidates: Candidate[] = [
   {
     id: '1',
@@ -80,7 +79,6 @@ export default function BuscarCandidatosPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate search term
     if (searchTerm.length < MIN_SEARCH_LENGTH) {
       setSearchError(`A pesquisa deve conter pelo menos ${MIN_SEARCH_LENGTH} caracteres`);
       return;
@@ -90,7 +88,6 @@ export default function BuscarCandidatosPage() {
     setIsSearching(true);
     setHasSearched(true);
     
-    // Simulate API call with setTimeout
     setTimeout(() => {
       const results = mockCandidates.filter(candidate => 
         candidate.position.toLowerCase().includes(searchTerm.toLowerCase())

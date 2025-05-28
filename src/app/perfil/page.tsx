@@ -14,7 +14,6 @@ export default function PerfilPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [editData, setEditData] = useState<User | null>(null);
 
-  // Check if both stores have hydrated and user is authenticated
   const isLoading = !userHydrated || !sessionHydrated;
   const isUserAuthenticated = isAuthenticated();
 
@@ -40,11 +39,7 @@ export default function PerfilPage() {
 
     setIsSaving(true);
     try {
-      // Atualiza na store do Zustand
       updateUser(editData);
-      
-      // Também atualiza no localStorage através do UserService se necessário
-      // (para manter compatibilidade com o sistema existente)
       
       setIsEditing(false);
       alert('Perfil atualizado com sucesso!');
@@ -141,7 +136,6 @@ export default function PerfilPage() {
   return (
     <div className="container mx-auto py-12">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -183,7 +177,6 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        {/* Dados Pessoais */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-xl font-medium text-gray-900 mb-4">Dados Pessoais</h2>
           
@@ -246,7 +239,6 @@ export default function PerfilPage() {
           )}
         </div>
 
-        {/* Experiência Profissional */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-xl font-medium text-gray-900 mb-4">Experiência Profissional</h2>
           
@@ -323,7 +315,6 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        {/* Formação Acadêmica */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-xl font-medium text-gray-900 mb-4">Formação Acadêmica</h2>
           
@@ -395,7 +386,6 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        {/* Resumo Profissional */}
         <div className="bg-white rounded-xl shadow-md p-6">
           <h2 className="text-xl font-medium text-gray-900 mb-4">Resumo Profissional</h2>
           
@@ -416,4 +406,4 @@ export default function PerfilPage() {
       </div>
     </div>
   );
-} 
+}

@@ -38,7 +38,6 @@ export default function CadastroEmpresaPage() {
 
   const updateCompanyData = (field: keyof CompanyData, value: string | File | undefined) => {
     setCompanyData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
@@ -47,7 +46,6 @@ export default function CadastroEmpresaPage() {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    // Company data validation
     if (!companyData.companyName.trim()) newErrors.companyName = 'Nome da empresa é obrigatório';
     if (!companyData.cnpj.trim()) newErrors.cnpj = 'CNPJ é obrigatório';
     if (!companyData.phone.trim()) newErrors.phone = 'Telefone é obrigatório';
@@ -64,7 +62,6 @@ export default function CadastroEmpresaPage() {
     if (!companyData.sector.trim()) newErrors.sector = 'Setor de atuação é obrigatório';
     if (!companyData.description.trim()) newErrors.description = 'Descrição da empresa é obrigatória';
     
-    // Responsible person validation
     if (!companyData.responsibleName.trim()) newErrors.responsibleName = 'Nome do responsável é obrigatório';
     if (!companyData.responsiblePosition.trim()) newErrors.responsiblePosition = 'Cargo é obrigatório';
     
@@ -109,7 +106,7 @@ export default function CadastroEmpresaPage() {
       if (result.success && result.company) {
         setCompany(result.company);
         alert('Cadastro realizado com sucesso!');
-        router.push('/dashboard-empresa'); // Redirect to company dashboard
+        router.push('/dashboard-empresa');
       } else {
         if (result.error === 'Este e-mail já está cadastrado') {
           setErrors({ email: result.error });
@@ -378,4 +375,4 @@ export default function CadastroEmpresaPage() {
       </div>
     </div>
   );
-} 
+}

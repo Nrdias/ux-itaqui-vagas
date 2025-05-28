@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -45,7 +46,6 @@ export default function CadastroCanditatoPage() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Form data states
   const [personalData, setPersonalData] = useState<PersonalData>({
     fullName: '',
     email: '',
@@ -197,7 +197,6 @@ export default function CadastroCanditatoPage() {
 
   const updatePersonalData = (field: keyof PersonalData, value: string) => {
     setPersonalData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
@@ -207,7 +206,6 @@ export default function CadastroCanditatoPage() {
     const updatedExperiences = [...experiences];
     updatedExperiences[index] = { ...updatedExperiences[index], [field]: value };
     
-    // If setting current job, clear end date
     if (field === 'isCurrentJob' && value === true) {
       updatedExperiences[index].endDate = '';
     }
@@ -266,7 +264,6 @@ export default function CadastroCanditatoPage() {
           </p>
         </div>
         
-        {/* Progress indicator */}
         <div className="flex items-center justify-between mb-8">
           <div className="w-full">
             <div className="relative">

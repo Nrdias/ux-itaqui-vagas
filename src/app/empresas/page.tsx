@@ -2,7 +2,6 @@ import React from 'react';
 import CompanyCard from '@/components/ui/CompanyCard';
 import Link from 'next/link';
 
-// Mock data for companies
 const companies = [
   {
     id: '1',
@@ -93,4 +92,4 @@ export default function EmpresasPage() {
       </div>
     </div>
   );
-} 
+}

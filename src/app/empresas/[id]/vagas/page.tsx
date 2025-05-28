@@ -3,7 +3,6 @@ import Link from 'next/link';
 import JobCard from '@/components/ui/JobCard';
 import { notFound } from 'next/navigation';
 
-// Mock company data
 const companies = [
   {
     id: '1',
@@ -61,7 +60,6 @@ const companies = [
   }
 ];
 
-// Mock jobs data for each company
 const companyJobs = {
   '1': [
     {
@@ -308,7 +306,6 @@ const companyJobs = {
 };
 
 export async function generateStaticParams() {
-  // Return the list of company IDs that should be pre-generated
   return [
     { id: '1' },
     { id: '2' },
@@ -328,15 +325,12 @@ interface PageProps {
 export default async function CompanyJobsPage({ params }: PageProps) {
   const { id } = await params;
   
-  // Find company
   const company = companies.find(c => c.id === id);
   
-  // Check if company exists
   if (!company) {
     notFound();
   }
   
-  // Get jobs for this company
   const jobs = companyJobs[id as keyof typeof companyJobs] || [];
   
   return (

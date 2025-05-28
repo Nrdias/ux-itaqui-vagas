@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 
-// Mock job data - in a real application, this would come from an API
 const jobDetails = {
   id: '1',
   title: 'Desenvolvedor Front-end',
@@ -37,7 +36,6 @@ const jobDetails = {
 };
 
 export async function generateStaticParams() {
-  // Return the list of job IDs that should be pre-generated
   return [
     { id: '1' },
     { id: '2' },
@@ -54,8 +52,6 @@ interface PageProps {
 export default async function JobDetailPage({ params }: PageProps) {
   const { id } = await params;
   
-  // In a real application, you would fetch the job details based on the ID
-  // For this example, we'll just use the mock data
   console.log('Job ID:', id);
   
   return (
@@ -182,4 +178,4 @@ export default async function JobDetailPage({ params }: PageProps) {
       </div>
     </div>
   );
-} 
+}

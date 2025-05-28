@@ -5,7 +5,6 @@ import JobCard from '@/components/ui/JobCard';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 
-// Mock data for jobs
 const jobListings = [
   {
     id: '1',
@@ -78,7 +77,6 @@ export default function VagasPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this would trigger an API call
     console.log('Searching for:', searchTerm);
   };
 
@@ -90,7 +88,6 @@ export default function VagasPage() {
     });
   };
 
-  // Filter jobs based on search and filters
   const filteredJobs = jobListings.filter(job => {
     const matchesSearch = searchTerm === '' || 
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -101,44 +98,39 @@ export default function VagasPage() {
     
     let matchesSalary = true;
     if (filters.salary !== '') {
-      // Extract numeric values from salary string
       const salaryText = job.salary;
       
-      // Handle salary ranges (e.g., "R$ 5.000 - R$ 7.000")
       let minSalary = 0;
       let maxSalary = Infinity;
       
       if (salaryText.includes('-')) {
         const parts = salaryText.split('-');
-        // Extract the numeric value from the first part (min salary)
         minSalary = parseInt(parts[0].replace(/[^\d]/g, ''), 10);
-        // Extract the numeric value from the second part (max salary)
         maxSalary = parseInt(parts[1].replace(/[^\d]/g, ''), 10);
       } else {
-        // For single values (e.g., "R$ 1.800")
         minSalary = maxSalary = parseInt(salaryText.replace(/[^\d]/g, ''), 10);
       }
       
       switch (filters.salary) {
-        case '1': // Até R$ 1.500
+        case '1':
           matchesSalary = minSalary <= 1500;
           break;
-        case '2': // R$ 1.500 - R$ 3.000
+        case '2':
           matchesSalary = (minSalary >= 1500 && minSalary <= 3000) || 
                           (maxSalary >= 1500 && maxSalary <= 3000) ||
                           (minSalary < 1500 && maxSalary > 3000);
           break;
-        case '3': // R$ 3.000 - R$ 5.000
+        case '3':
           matchesSalary = (minSalary >= 3000 && minSalary <= 5000) || 
                           (maxSalary >= 3000 && maxSalary <= 5000) ||
                           (minSalary < 3000 && maxSalary > 5000);
           break;
-        case '4': // R$ 5.000 - R$ 7.000
+        case '4':
           matchesSalary = (minSalary >= 5000 && minSalary <= 7000) || 
                           (maxSalary >= 5000 && maxSalary <= 7000) ||
                           (minSalary < 5000 && maxSalary > 7000);
           break;
-        case '5': // Acima de R$ 7.000
+        case '5':
           matchesSalary = maxSalary > 7000;
           break;
         default:
@@ -256,4 +248,4 @@ export default function VagasPage() {
       </div>
     </div>
   );
-} 
+}
