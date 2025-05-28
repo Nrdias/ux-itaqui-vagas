@@ -1,51 +1,56 @@
-interface PersonalData {
-  fullName: string;
-  email: string;
-  phone: string;
-  birthDate: string;
-  cpf: string;
-  city: string;
-  address: string;
-  password: string;
-  confirmPassword: string;
-}
+import { useUserStore } from '@/stores/userStore';
+import { 
+  User, 
+  UserData, 
+  RegisteredUser 
+} from '@/types/user';
 
-interface Experience {
-  id: string;
-  position: string;
-  company: string;
-  startDate: string;
-  endDate: string;
-  isCurrentJob: boolean;
-  description: string;
-}
 
-interface Education {
-  id: string;
-  course: string;
-  institution: string;
-  level: string;
-  status: string;
-  startDate: string;
-  endDate: string;
-}
+// Função para converter RegisteredUser para User (formato da store)
 
-export interface UserData {
-  personalData: PersonalData;
-  experiences: Experience[];
-  education: Education[];
-  professionalSummary: string;
-  resumeFile?: File;
-}
-
-export interface RegisteredUser extends UserData {
-  id: string;
-  createdAt: string;
+function convertToStoreUser(registeredUser: RegisteredUser): User {
+  return {
+    id: registeredUser.id,
+    email: registeredUser.personalData.email,
+    password: registeredUser.personalData.password,
+    type: 'candidate',
+    name: registeredUser.personalData.fullName,
+    phone: registeredUser.personalData.phone,
+    cpf: registeredUser.personalData.cpf,
+    birthDate: registeredUser.personalData.birthDate,
+    address: {
+      street: registeredUser.personalData.address,
+      number: '',
+      complement: '',
+      neighborhood: '',
+      city: registeredUser.personalData.city,
+      state: '',
+      zipCode: ''
+    },
+    experiences: registeredUser.experiences.map(exp => ({
+      id: exp.id,
+      company: exp.company,
+      position: exp.position,
+      startDate: exp.startDate,
+      endDate: exp.endDate,
+      isCurrentWork: exp.isCurrentJob,
+      description: exp.description
+    })),
+    education: registeredUser.education.map(edu => ({
+      id: edu.id,
+      institution: edu.institution,
+      course: edu.course,
+      level: edu.level,
+      startDate: edu.startDate,
+      endDate: edu.endDate,
+      isCurrentStudy: edu.status === 'current'
+    })),
+    professionalSummary: registeredUser.professionalSummary
+  };
 }
 
 export class UserService {
   private static STORAGE_KEY = 'registeredUsers';
-  private static CURRENT_USER_KEY = 'currentUser';
 
   static async registerUser(userData: UserData): Promise<{ success: boolean; error?: string; user?: RegisteredUser }> {
     try {
@@ -72,8 +77,9 @@ export class UserService {
       existingUsers.push(newUser);
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(existingUsers));
       
-      // Set as current user
-      this.setCurrentUser(newUser);
+      // Set user in Zustand store
+      const storeUser = convertToStoreUser(newUser);
+      useUserStore.getState().setUser(storeUser);
       
       return { success: true, user: newUser };
     } catch (error) {
@@ -92,27 +98,17 @@ export class UserService {
     }
   }
 
-  static getCurrentUser(): RegisteredUser | null {
-    try {
-      const user = localStorage.getItem(this.CURRENT_USER_KEY);
-      return user ? JSON.parse(user) : null;
-    } catch (error) {
-      console.error('Error getting current user:', error);
-      return null;
-    }
-  }
-
-  static setCurrentUser(user: RegisteredUser): void {
-    try {
-      localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
-    } catch (error) {
-      console.error('Error setting current user:', error);
-    }
+  static getCurrentUser(): User | null {
+    // Agora obtemos o usuário da store do Zustand
+    return useUserStore.getState().user;
   }
 
   static logout(): void {
     try {
-      localStorage.removeItem(this.CURRENT_USER_KEY);
+      // Limpa o usuário da store do Zustand
+      useUserStore.getState().clearUser();
+      // Remove também do localStorage como backup
+      localStorage.removeItem('currentUser');
     } catch (error) {
       console.error('Error during logout:', error);
     }
@@ -127,7 +123,10 @@ export class UserService {
         return { success: false, error: 'E-mail ou senha incorretos' };
       }
       
-      this.setCurrentUser(user);
+      // Set user in Zustand store
+      const storeUser = convertToStoreUser(user);
+      useUserStore.getState().setUser(storeUser);
+      
       return { success: true, user };
     } catch (error) {
       console.error('Error during login:', error);
@@ -160,10 +159,11 @@ export class UserService {
       // Save to localStorage
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
       
-      // Update current user if it's the same user
-      const currentUser = this.getCurrentUser();
+      // Update current user in store if it's the same user
+      const currentUser = useUserStore.getState().user;
       if (currentUser && currentUser.id === id) {
-        this.setCurrentUser(users[userIndex]);
+        const updatedStoreUser = convertToStoreUser(users[userIndex]);
+        useUserStore.getState().setUser(updatedStoreUser);
       }
       
       return { success: true, user: users[userIndex] };

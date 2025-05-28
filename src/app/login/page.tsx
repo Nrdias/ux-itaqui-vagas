@@ -2,13 +2,16 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { useRouter } from 'next/navigation';
 import { UserService } from '@/lib/userService';
+import { CompanyService } from '@/lib/companyService';
+import { useCompanyStore } from '@/stores/companyStore';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setCompany } = useCompanyStore();
   const [userType, setUserType] = useState<'candidate' | 'company'>('candidate');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,14 +35,21 @@ export default function LoginPage() {
         const result = await UserService.loginUser(email, password);
         
         if (result.success) {
-          alert('Login realizado com sucesso!');
-          router.push('/'); // Redirect to dashboard or home
+          // Redirect immediately since stores are updated synchronously
+          router.push('/perfil');
         } else {
           setError(result.error || 'Erro ao fazer login');
         }
       } else {
-        // For now, company login is not implemented
-        setError('Login de empresa ainda não implementado');
+        // Company login
+        const result = await CompanyService.loginCompany(email, password);
+        
+        if (result.success && result.company) {
+          setCompany(result.company);
+          router.push('/dashboard-empresa');
+        } else {
+          setError(result.error || 'Erro ao fazer login');
+        }
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -90,67 +100,64 @@ export default function LoginPage() {
           )}
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                label="E-mail"
-                type="email"
-                placeholder={userType === 'candidate' ? "seu@email.com" : "empresa@dominio.com"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+            <Input
+              label="E-mail"
+              type="email"
+              placeholder="seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             
-            <div>
-              <Input
-                label="Senha"
-                type="password"
-                placeholder="Digite sua senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+            <Input
+              label="Senha"
+              type="password"
+              placeholder="Sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="remember" 
-                  className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
+                <input
+                  type="checkbox"
+                  id="remember"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
                 />
                 <label htmlFor="remember" className="ml-2 text-sm text-secondary">
-                  Lembrar-me
+                  Lembrar de mim
                 </label>
               </div>
               
-              <Link href="/recuperar-senha" className="text-sm text-primary hover:underline">
-                Esqueceu a senha?
+              <Link href="/esqueci-senha" className="text-sm text-primary hover:underline">
+                Esqueci minha senha
               </Link>
             </div>
             
-            <Button fullWidth disabled={isLoading}>
+            <Button 
+              type="submit" 
+              fullWidth 
+              disabled={isLoading}
+            >
               {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
-          
-          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-            <p className="text-secondary">
-              {userType === 'candidate' 
-                ? "Não tem uma conta?" 
-                : "Não possui cadastro para sua empresa?"}
-            </p>
-            <Link 
-              href={userType === 'candidate' ? "/cadastro-candidato" : "/cadastro-empresa"} 
-              className="text-primary hover:underline font-medium"
-            >
-              {userType === 'candidate' 
-                ? "Cadastre seu currículo" 
-                : "Cadastre sua empresa"}
-            </Link>
-          </div>
+        </div>
+        
+        <div className="text-center mt-6">
+          <p className="text-secondary text-sm">
+            Não tem uma conta? {' '}
+            {userType === 'candidate' ? (
+              <Link href="/cadastro-candidato" className="text-primary hover:underline">
+                Cadastre-se como candidato
+              </Link>
+            ) : (
+              <Link href="/cadastro-empresa" className="text-primary hover:underline">
+                Cadastre sua empresa
+              </Link>
+            )}
+          </p>
         </div>
       </div>
     </div>

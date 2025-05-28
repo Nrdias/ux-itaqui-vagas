@@ -5,7 +5,8 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { UserService, type UserData } from '@/lib/userService';
+import { UserService } from '@/lib/userService';
+import { UserData } from '@/types/user';
 
 interface PersonalData {
   fullName: string;
@@ -85,16 +86,28 @@ export default function CadastroCanditatoPage() {
     const newErrors: Record<string, string> = {};
     
     if (!personalData.fullName.trim()) newErrors.fullName = 'Nome completo é obrigatório';
-    if (!personalData.email.trim()) newErrors.email = 'E-mail é obrigatório';
-    if (!personalData.email.includes('@')) newErrors.email = 'E-mail inválido';
+    
+    if (!personalData.email.trim()) {
+      newErrors.email = 'E-mail é obrigatório';
+    } else if (!personalData.email.includes('@') || !personalData.email.includes('.')) {
+      newErrors.email = 'E-mail inválido';
+    }
+    
     if (!personalData.phone.trim()) newErrors.phone = 'Telefone é obrigatório';
     if (!personalData.birthDate) newErrors.birthDate = 'Data de nascimento é obrigatória';
     if (!personalData.cpf.trim()) newErrors.cpf = 'CPF é obrigatório';
     if (!personalData.city.trim()) newErrors.city = 'Cidade é obrigatória';
     if (!personalData.address.trim()) newErrors.address = 'Endereço é obrigatório';
-    if (!personalData.password.trim()) newErrors.password = 'Senha é obrigatória';
-    if (personalData.password.length < 6) newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
-    if (personalData.password !== personalData.confirmPassword) {
+    
+    if (!personalData.password.trim()) {
+      newErrors.password = 'Senha é obrigatória';
+    } else if (personalData.password.length < 6) {
+      newErrors.password = 'Senha deve ter pelo menos 6 caracteres';
+    }
+    
+    if (!personalData.confirmPassword.trim()) {
+      newErrors.confirmPassword = 'Confirmação de senha é obrigatória';
+    } else if (personalData.password !== personalData.confirmPassword) {
       newErrors.confirmPassword = 'Senhas não coincidem';
     }
     
@@ -226,7 +239,7 @@ export default function CadastroCanditatoPage() {
       
       if (result.success) {
         alert('Cadastro realizado com sucesso!');
-        router.push('/');
+        router.push('/perfil');
       } else {
         if (result.error === 'Este e-mail já está cadastrado') {
           setErrors({ email: result.error });
@@ -630,7 +643,7 @@ export default function CadastroCanditatoPage() {
         
         <div className="text-center mt-6">
           <p className="text-secondary text-sm">
-            Já tem uma conta? <Link href="/login" className="text-primary hover:underline">Faça login</Link>
+            Já tem uma conta? <Link href={"/login"} className="text-primary hover:underline">Faça login</Link>
           </p>
         </div>
       </div>
