@@ -20,7 +20,7 @@ export interface CompanyData {
   confirmPassword: string;
 }
 
-export interface RegisteredCompany extends Omit<CompanyData, 'password' | 'confirmPassword' | 'logo'> {
+export interface RegisteredCompany extends Omit<CompanyData, 'confirmPassword' | 'logo'> {
   id: string;
   createdAt: string;
   logoUrl?: string;

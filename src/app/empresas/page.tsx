@@ -4,6 +4,16 @@ import Link from 'next/link';
 
 const companies = [
   {
+    id: 'mock-empresa-001',
+    name: 'Empresa Exemplo Ltda',
+    description: 'Empresa exemplo para demonstração do sistema de vagas de Itaqui. Especializada em soluções tecnológicas e inovação para o mercado local.',
+    sector: 'Tecnologia',
+    location: 'Itaqui, RS',
+    size: '10-50 funcionários',
+    website: 'https://empresaexemplo.com.br',
+    jobCount: 2
+  },
+  {
     id: '1',
     name: 'Tech Solutions',
     description: 'Empresa especializada em desenvolvimento de software e soluções tecnológicas para pequenas e médias empresas.',

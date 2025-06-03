@@ -4,8 +4,10 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/userStore';
+import { useCompanyStore } from '@/stores/companyStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { UserService } from '@/lib/userService';
+import { CompanyService } from '@/lib/companyService';
 
 const Header = () => {
   const pathname = usePathname();
@@ -13,8 +15,17 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Usando as stores do Zustand
-  const { user: currentUser } = useUserStore();
-  const { isAuthenticated } = useSessionStore();
+  const { user: currentUser, _hasHydrated: userHydrated } = useUserStore();
+  const { company: currentCompany, _hasHydrated: companyHydrated } = useCompanyStore();
+  const { isAuthenticated, userType, _hasHydrated: sessionHydrated } = useSessionStore();
+
+  // Check if all stores have been hydrated
+  const isHydrated = userHydrated && companyHydrated && sessionHydrated;
+
+  // Determine current authenticated entity
+  const currentEntity = currentUser || currentCompany;
+  const entityName = currentUser?.name || currentCompany?.companyName || 'Usuário';
+  const entityEmail = currentUser?.email || currentCompany?.email || '';
 
   const isActive = (path: string) => {
     if (path === '/' && pathname === '/') return true;
@@ -31,7 +42,11 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    UserService.logout();
+    if (userType === 'candidate') {
+      UserService.logout();
+    } else if (userType === 'company') {
+      CompanyService.clearCurrentCompany();
+    }
     router.push('/');
     closeMobileMenu();
   };
@@ -45,6 +60,15 @@ const Header = () => {
       .slice(0, 2)
       .join('')
       .toUpperCase();
+  };
+
+  const getProfileLink = () => {
+    if (userType === 'candidate') {
+      return '/perfil';
+    } else if (userType === 'company') {
+      return '/dashboard-empresa';
+    }
+    return '/perfil';
   };
 
   return (
@@ -116,20 +140,26 @@ const Header = () => {
             
             {/* Auth Section - Right */}
             <div className="flex items-center space-x-2 lg:space-x-4">
-              {isAuthenticated() ? (
+              {!isHydrated ? (
+                // Loading state while hydrating
+                <div className="flex items-center space-x-2 lg:space-x-4">
+                  <div className="w-16 h-8 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="w-20 h-8 bg-gray-200 rounded animate-pulse hidden sm:block"></div>
+                </div>
+              ) : isAuthenticated() ? (
                 // Logged in state
                 <div className="flex items-center space-x-2 lg:space-x-3">
                   {/* Profile Link */}
                   <Link 
-                    href={'/perfil'} 
+                    href={getProfileLink()} 
                     className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                    title={`Perfil de ${currentUser?.name || 'Usuário'}`}
+                    title={`Perfil de ${entityName}`}
                   >
                     <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                      {getUserInitials(currentUser?.name || '')}
+                      {getUserInitials(entityName)}
                     </div>
                     <span className="hidden sm:block text-sm text-gray-700">
-                      {(currentUser?.name || 'Usuário').split(' ')[0]}
+                      {entityName.split(' ')[0]}
                     </span>
                   </Link>
                   
@@ -188,15 +218,18 @@ const Header = () => {
           </div>
 
           {/* User Info (if logged in) */}
-          {isAuthenticated() && currentUser && (
+          {isHydrated && isAuthenticated() && currentEntity && (
             <div className="mb-6 p-4 bg-blue-50 rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                  {getUserInitials(currentUser.name || '')}
+                  {getUserInitials(entityName)}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{currentUser.name || 'Usuário'}</p>
-                  <p className="text-sm text-gray-600">{currentUser.email}</p>
+                  <p className="font-medium text-gray-900">{entityName}</p>
+                  <p className="text-sm text-gray-600">{entityEmail}</p>
+                  {userType && (
+                    <p className="text-xs text-blue-600 capitalize">{userType === 'candidate' ? 'Candidato' : 'Empresa'}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -251,22 +284,28 @@ const Header = () => {
             </Link>
             
             {/* Profile link for mobile (if logged in) */}
-            {isAuthenticated() && (
+            {isHydrated && isAuthenticated() && (
               <Link 
-                href={"/perfil"} 
+                href={getProfileLink()} 
                 onClick={closeMobileMenu}
-                className={`block py-3 px-4 rounded-lg transition-colors text-lg ${isActive('/perfil') 
+                className={`block py-3 px-4 rounded-lg transition-colors text-lg ${isActive(getProfileLink()) 
                   ? 'text-blue-600 font-medium bg-blue-50' 
                   : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'}`}
               >
-                Meu Perfil
+                {userType === 'company' ? 'Dashboard' : 'Meu Perfil'}
               </Link>
             )}
           </nav>
 
           {/* Mobile Auth Buttons */}
           <div className="mt-8 pt-6 border-t border-gray-200 space-y-3">
-            {isAuthenticated() ? (
+            {!isHydrated ? (
+              // Loading state while hydrating
+              <div className="space-y-3">
+                <div className="w-full h-12 bg-gray-200 rounded animate-pulse"></div>
+                <div className="w-full h-12 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            ) : isAuthenticated() ? (
               <button 
                 onClick={handleLogout}
                 className="btn btn-secondary w-full text-center text-lg py-3 flex items-center justify-center space-x-2"

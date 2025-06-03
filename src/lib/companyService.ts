@@ -1,4 +1,6 @@
 import { CompanyData, RegisteredCompany, Company } from '@/types/company';
+import { useCompanyStore } from '@/stores/companyStore';
+import { initializeMockData } from './mockData';
 
 interface ServiceResult {
   success: boolean;
@@ -14,6 +16,9 @@ export class CompanyService {
   static getRegisteredCompanies(): RegisteredCompany[] {
     try {
       if (typeof window === 'undefined') return [];
+      
+      // Initialize mock data if needed
+      initializeMockData();
       
       const companies = localStorage.getItem(this.STORAGE_KEY);
       return companies ? JSON.parse(companies) : [];
@@ -111,6 +116,7 @@ export class CompanyService {
         responsiblePosition: companyData.responsiblePosition,
         responsibleEmail: companyData.responsibleEmail,
         responsiblePhone: companyData.responsiblePhone,
+        password: companyData.password, // Store the password
         createdAt: new Date().toISOString(),
         logoUrl: undefined // TODO: Handle file upload
       };
@@ -122,12 +128,11 @@ export class CompanyService {
       // Create company object for store
       const company: Company = {
         ...newCompany,
-        password: companyData.password,
         type: 'company'
       };
 
-      // Save current company
-      this.saveCurrentCompany(company);
+      // Set company in Zustand store
+      useCompanyStore.getState().setCompany(company);
 
       return { success: true, company };
     } catch (error) {
@@ -151,15 +156,19 @@ export class CompanyService {
         return { success: false, error: 'E-mail não encontrado' };
       }
 
-      // For now, we'll use a simple password check
-      // In a real app, you'd compare with a hashed password
+      // Password validation - now all companies have stored passwords
+      if (registeredCompany.password !== password) {
+        return { success: false, error: 'Senha incorreta' };
+      }
+
+      // Create company object for store
       const company: Company = {
         ...registeredCompany,
-        password: password, // In real app, this would be retrieved securely
         type: 'company'
       };
 
-      this.saveCurrentCompany(company);
+      // Set company in Zustand store
+      useCompanyStore.getState().setCompany(company);
       
       return { success: true, company };
     } catch (error) {
@@ -197,7 +206,8 @@ export class CompanyService {
     try {
       if (typeof window === 'undefined') return;
       
-      localStorage.removeItem(this.CURRENT_COMPANY_KEY);
+      // Clear from Zustand store
+      useCompanyStore.getState().clearCompany();
     } catch (error) {
       console.error('Error clearing current company:', error);
     }

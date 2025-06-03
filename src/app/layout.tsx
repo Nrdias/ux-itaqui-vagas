@@ -24,14 +24,14 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body suppressHydrationWarning={true} className="safe-area-top safe-area-bottom">
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <BackButton />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </div>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <BackButton />
+            <main className="flex-grow">
+              {children}
+            </main>
+            <Footer />
+          </div>
       </body>
     </html>
   );

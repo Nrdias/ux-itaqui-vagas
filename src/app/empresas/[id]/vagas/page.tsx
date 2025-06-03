@@ -5,6 +5,15 @@ import { notFound } from 'next/navigation';
 
 const companies = [
   {
+    id: 'mock-empresa-001',
+    name: 'Empresa Exemplo Ltda',
+    description: 'Empresa exemplo para demonstração do sistema de vagas de Itaqui. Especializada em soluções tecnológicas e inovação para o mercado local.',
+    sector: 'Tecnologia',
+    location: 'Itaqui, RS',
+    size: '10-50 funcionários',
+    website: 'https://empresaexemplo.com.br',
+  },
+  {
     id: '1',
     name: 'Tech Solutions',
     description: 'Empresa especializada em desenvolvimento de software e soluções tecnológicas para pequenas e médias empresas.',
@@ -61,6 +70,28 @@ const companies = [
 ];
 
 const companyJobs = {
+  'mock-empresa-001': [
+    {
+      id: 'mock-001',
+      title: 'Desenvolvedor Full Stack',
+      company: 'Empresa Exemplo Ltda',
+      location: 'Itaqui, RS',
+      type: 'Integral',
+      salary: 'R$ 4.000 - R$ 6.000',
+      postedAt: '01/12/2024',
+      description: 'Vaga para desenvolvedor full stack com experiência em React, Node.js e bancos de dados. Oportunidade de trabalhar em projetos inovadores para o mercado local.'
+    },
+    {
+      id: 'mock-002',
+      title: 'Analista de Sistemas',
+      company: 'Empresa Exemplo Ltda',
+      location: 'Itaqui, RS',
+      type: 'Integral',
+      salary: 'R$ 3.500 - R$ 5.000',
+      postedAt: '02/12/2024',
+      description: 'Buscamos analista de sistemas para análise de requisitos, documentação e suporte a sistemas internos da empresa.'
+    }
+  ],
   '1': [
     {
       id: '101',
@@ -307,6 +338,7 @@ const companyJobs = {
 
 export async function generateStaticParams() {
   return [
+    { id: 'mock-empresa-001' },
     { id: '1' },
     { id: '2' },
     { id: '3' },

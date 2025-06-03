@@ -7,11 +7,9 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { UserService } from '@/lib/userService';
 import { CompanyService } from '@/lib/companyService';
-import { useCompanyStore } from '@/stores/companyStore';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { setCompany } = useCompanyStore();
   const [userType, setUserType] = useState<'candidate' | 'company'>('candidate');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,8 +40,7 @@ export default function LoginPage() {
       } else {
         const result = await CompanyService.loginCompany(email, password);
         
-        if (result.success && result.company) {
-          setCompany(result.company);
+        if (result.success) {
           router.push('/dashboard-empresa');
         } else {
           setError(result.error || 'Erro ao fazer login');

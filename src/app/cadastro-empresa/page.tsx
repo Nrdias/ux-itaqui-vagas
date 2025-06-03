@@ -7,11 +7,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CompanyService } from '@/lib/companyService';
 import { CompanyData } from '@/types/company';
-import { useCompanyStore } from '@/stores/companyStore';
 
 export default function CadastroEmpresaPage() {
   const router = useRouter();
-  const { setCompany } = useCompanyStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -103,8 +101,7 @@ export default function CadastroEmpresaPage() {
     try {
       const result = await CompanyService.registerCompany(companyData);
       
-      if (result.success && result.company) {
-        setCompany(result.company);
+      if (result.success) {
         alert('Cadastro realizado com sucesso!');
         router.push('/dashboard-empresa');
       } else {
