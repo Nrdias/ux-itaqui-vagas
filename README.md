@@ -1,98 +1,101 @@
-# Itaqui Vagas
+# Itaqui Jobs
 
-Um portal de vagas de emprego inspirado em https://itaqui.vagasnacidade.com.br/, desenvolvido com React, TypeScript e Next.js.
+A job portal inspired by [https://itaqui.vagasnacidade.com.br/](https://itaqui.vagasnacidade.com.br/), developed with React, TypeScript, and Next.js.
 
 ## 🌐 Demo
 
-Acesse a aplicação em funcionamento: **[https://nrdias.github.io/ux-itaqui-vagas/](https://nrdias.github.io/ux-itaqui-vagas/)**
+Access the running application: **[https://nrdias.github.io/ux-itaqui-vagas/](https://nrdias.github.io/ux-itaqui-vagas/)**
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-- **Cadastro de usuários**: Candidatos e empresas podem criar suas contas
-- **Publicação de vagas**: Empresas podem divulgar oportunidades gratuitamente
-- **Cadastro de currículos**: Candidatos podem preencher seus dados profissionais
-- **Busca de vagas**: Filtros por tipo de contrato, faixa salarial e mais
-- **Busca de candidatos**: Empresas podem encontrar profissionais por cargo e experiência
-- **Interface moderna**: Design minimalista inspirado na estética da Apple
-- **Integração externa**: Links de contato e suporte redirecionam para a plataforma Vagas na Cidade
+  - **User registration**: Candidates and companies can create their accounts
+  - **Job posting**: Companies can advertise opportunities for free
+  - **Resume submission**: Candidates can fill in their professional details
+  - **Job search**: Filters by contract type, salary range, and more
+  - **Candidate search**: Companies can find professionals by position and experience
+  - **Modern interface**: Minimalist design inspired by Apple's aesthetic
+  - **External integration**: Contact and support links redirect to the Vagas na Cidade platform
 
-## 💻 Tecnologias
+## 💻 Technologies
 
-- [Next.js 15](https://nextjs.org/)
-- [React 18](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+  - [Next.js 15](https://nextjs.org/)
+  - [React 18](https://reactjs.org/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Tailwind CSS](https://tailwindcss.com/)
 
-## 🛠️ Instalação e uso
+## 🛠️ Installation and usage
 
-### Pré-requisitos
+### Prerequisites
 
-- Node.js (versão 18 ou superior)
-- npm ou yarn
+  - Node.js (version 18 or higher)
+  - npm or yarn
 
-### Passos para instalação
+### Installation steps
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/ux-itaqui-vagas.git
-cd ux-itaqui-vagas
-```
+1.  Clone the repository:
 
-2. Instale as dependências:
-```bash
-npm install
-# ou
-yarn install
-```
+    ```bash
+    git clone https://github.com/your-username/ux-itaqui-vagas.git
+    cd ux-itaqui-vagas
+    ```
 
-3. Rode o servidor de desenvolvimento:
-```bash
-npm run dev
-# ou
-yarn dev
-```
+2.  Install the dependencies:
 
-4. Acesse http://localhost:3000 no seu navegador.
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-## 🏗️ Estrutura do projeto
+3.  Run the development server:
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+4.  Access http://localhost:3000 in your browser.
+
+## 🏗️ Project structure
 
 ```
 ux-itaqui-vagas/
 ├── src/
-│   ├── app/                  # Páginas e rotas da aplicação
-│   │   ├── vagas/            # Listagem e detalhes de vagas
-│   │   ├── cadastro/         # Cadastro de candidatos
-│   │   ├── cadastro-empresa/ # Cadastro de empresas
-│   │   ├── login/            # Login de usuários
-│   │   ├── publicar-vaga/    # Formulário para publicar vagas
-│   │   ├── sobre/            # Página sobre o projeto
-│   │   ├── empresas/         # Informações para empresas
-│   │   └── buscar-candidatos/ # Busca de candidatos por cargo
-│   ├── components/           # Componentes reutilizáveis
-│   │   ├── layout/           # Componentes de layout (Header, Footer)
-│   │   └── ui/               # Componentes de UI (Button, Input, JobCard)
-├── public/                   # Arquivos estáticos
-└── tailwind.config.ts       # Configuração do Tailwind CSS
+│    ├── app/                   # Application pages and routes
+│    │   ├── vagas/             # Job listing and details
+│    │   ├── cadastro/          # Candidate registration
+│    │   ├── cadastro-empresa/  # Company registration
+│    │   ├── login/             # User login
+│    │   ├── publicar-vaga/     # Form to post jobs
+│    │   ├── sobre/             # About the project page
+│    │   ├── empresas/          # Information for companies
+│    │   └── buscar-candidatos/ # Search for candidates by position
+│    ├── components/            # Reusable components
+│    │   ├── layout/            # Layout components (Header, Footer)
+│    │   └── ui/                # UI components (Button, Input, JobCard)
+├── public/                     # Static files
+└── tailwind.config.ts          # Tailwind CSS configuration
 ```
 
-## ✨ Recursos implementados
+## ✨ Implemented features
 
-- **Página de busca de candidatos**: Interface completa para pesquisar candidatos por cargo, com validação de mínimo de caracteres e tratamento para resultados vazios
-- **Página Sobre**: Informações detalhadas sobre o projeto, incluindo Nossa Causa, Nossos Pilares e Valores
-- **Integração com Vagas na Cidade**: Links de "Fale Conosco" e "Suporte" redirecionam para o site oficial vagasnacidade.com.br
-- **Compatibilidade com diferentes navegadores**: Correção de erros de hidratação para garantir renderização consistente
-- **Design responsivo**: Interface adaptável para desktop e dispositivos móveis
+  - **Candidate search page**: Complete interface to search for candidates by position, with minimum character validation and handling for empty results
+  - **About page**: Detailed information about the project, including Our Cause, Our Pillars, and Values
+  - **Integration with Vagas na Cidade**: "Contact Us" and "Support" links redirect to the official vagasnacidade.com.br website
+  - **Cross-browser compatibility**: Correction of hydration errors to ensure consistent rendering
+  - **Responsive design**: Interface adaptable for desktop and mobile devices
 
-## 📝 Notas
+## 📝 Notes
 
-Este projeto é apenas para fins educacionais e de demonstração. Em uma aplicação real, seria necessário implementar:
+This project is for educational and demonstration purposes only. In a real application, it would be necessary to implement:
 
-- Autenticação e segurança
-- Backend e banco de dados
-- Validação de formulários
-- Testes automatizados
-- Responsividade para todos os dispositivos
+  - Authentication and security
+  - Backend and database
+  - Form validation
+  - Automated tests
+  - Responsiveness for all devices
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+This project is under the MIT license. See the LICENSE file for more details.
