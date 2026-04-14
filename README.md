@@ -1,6 +1,8 @@
 # Itaqui Jobs
 
 A job portal inspired by [https://itaqui.vagasnacidade.com.br/](https://itaqui.vagasnacidade.com.br/), developed with React, TypeScript, and Next.js.
+I made this, during my UX class at university, the stakeholder bring to us the idea of regional job search, focus on provide to users jobs that are "reachable", and focus in the comunities on interior of Rio Grande do Sul (Itaqui is as city located here).
+The stakeholder wanted just the design, but I like the idea, so i did it in one night (using AI, but since I learned to always follow best practices, i tried to create some thing that could be used, focus in code quality, asude the solution itself.
 
 ## 🌐 Demo
 
